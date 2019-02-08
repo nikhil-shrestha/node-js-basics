@@ -23,13 +23,14 @@ const requestHandler = (req, res) => {
             console.log(parsedBody);
             const message = parsedBody.split('=')[1];
             fs.writeFile('message.txt', message, (err) => {
+                
                 res.statusCode = 302;
                 res.setHeader('Location', '/');
                 return res.end();
             });
-            
         });
     }
+
     res.setHeader('Content-Type', 'text/html');
     res.write('<html>');
     res.write('<head><title>My First Page</title></head>');
