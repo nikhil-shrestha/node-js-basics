@@ -5,7 +5,23 @@
 
 <%- include('../includes/navigation.ejs') %>
 
-<h1>Cart</h1>
+<main>
+    <% if (products.length > 0) { %> 
+        <ul>
+            <% products.forEach(p => { %>
+                <li> 
+                    <p><%= p.productData.title %> ( <%= p.qty %> )</p>
+                    <form action="/cart-delete-item" method="post">
+                        <input type="hidden" name="productId" value="<%= p.productData.id %>">
+                        <button type="submit" class="btn">Delete</button>
+                    </form>
+                </li>
+            <% }) %>
+        </ul>
+    <% } else { %> 
+    <% } %>
+
+</main>
 
 
 <%- include('../includes/end.ejs') %>
