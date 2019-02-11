@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 
 const errorController = require("./controllers/error");
 const mongoConnect = require("./utils/database").mongoConnect;
+const User = require("./models/user");
 
 const app = express();
 
@@ -18,14 +19,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use((req, res, next) => {
-  // User.findById(1)
-  //   .then(user => {
-  //     req.user = user; //storing sequelize request
-  //     next();
-  //   })
-  //   .catch(err => {
-  //     console.log(err);
-  //   });
+  User.findById("5c618c21e68fbe03c8a2c379")
+    .then(user => {
+      req.user = user; //storing sequelize request
+      next();
+    })
+    .catch(err => {
+      console.log(err);
+    });
   next();
 });
 

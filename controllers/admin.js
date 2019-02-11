@@ -1,4 +1,4 @@
-const mongodb = require('mongodb')
+const mongodb = require("mongodb");
 const Product = require("../models/product");
 
 const ObjectId = mongodb.ObjectID;
@@ -33,7 +33,7 @@ exports.postAddProduct = (req, res, next) => {
 };
 
 exports.getEditProduct = (req, res, next) => {
-  const prodId = req.params.productId
+  const prodId = req.params.productId;
   const editMode = req.query.edit;
 
   if (!editMode) {
@@ -106,11 +106,8 @@ exports.postDeleteProduct = (req, res, next) => {
   console.log(req.body);
   const prodId = req.body.productId;
 
-  Product.findById(prodId)
-    .then(product => {
-      return product.destroy();
-    })
-    .then(result => {
+  Product.deleteById(prodId)
+    .then(() => {
       console.log("Destroy Product");
       res.redirect("/admin/products");
     })
