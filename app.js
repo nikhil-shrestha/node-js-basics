@@ -21,7 +21,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use((req, res, next) => {
   User.findById("5c618c21e68fbe03c8a2c379")
     .then(user => {
-      req.user = user; //storing sequelize request
+      req.user = new User(user.name, user.email, user.cart, user._id); //storing sequelize request
       next();
     })
     .catch(err => {
