@@ -19,15 +19,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use((req, res, next) => {
-  // User.findById("5c618c21e68fbe03c8a2c379")
-  //   .then(user => {
-  //     req.user = new User(user.name, user.email, user.cart, user._id); //storing sequelize request
-  //     next();
-  //   })
-  //   .catch(err => {
-  //     console.log(err);
-  //   });
-  next();
+  User.findById("5c626de134bf01117af7e008")
+    .then(user => {
+      req.user = user;
+      next();
+    })
+    .catch(err => console.log(err));
 });
 
 app.use("/admin", adminRoutes);
@@ -40,6 +37,18 @@ mongoose
     "mongodb+srv://illusionist17:heaven-hunter17@cluster0-pdf2z.mongodb.net/shop?retryWrites=true"
   )
   .then(result => {
+    User.findOne().then(user => {
+      if (!user) {
+        const user = new User({
+          name: "Nikhil",
+          email: "test@test.com",
+          cart: {
+            items: []
+          }
+        });
+        user.save();
+      }
+    });
     app.listen(3000);
   })
   .catch(err => console.log(err));
