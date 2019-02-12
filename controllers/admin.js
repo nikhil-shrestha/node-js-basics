@@ -1,7 +1,4 @@
-const mongodb = require("mongodb");
 const Product = require("../models/product");
-
-const ObjectId = mongodb.ObjectID;
 
 exports.getAddProduct = (req, res, next) => {
   // res.sendFile(path.join(rootDir, "views", "add-product.html"));
@@ -13,19 +10,17 @@ exports.getAddProduct = (req, res, next) => {
 };
 
 exports.postAddProduct = (req, res, next) => {
-  console.log(req.body);
   const title = req.body.title;
   const imageUrl = req.body.imageUrl;
   const price = req.body.price;
   const description = req.body.description;
-  const product = new Product(
-    title,
-    price,
-    description,
-    imageUrl,
-    null,
-    req.user._id
-  );
+
+  const product = new Product({
+    title: title,
+    price: price,
+    description: description,
+    imageUrl: imageUrl
+  });
 
   product
     .save()
