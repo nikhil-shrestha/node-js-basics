@@ -22,7 +22,6 @@ router.post(
     body("price", "Please Check your Price")
       .isFloat()
       .trim(),
-    body("imageUrl", "Please Enter a valid URL").isURL(),
     body("description", "Please Enter Description with minimum 4 characters")
       .isLength({ min: 4, max: 400 })
       .trim()
