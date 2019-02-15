@@ -174,7 +174,7 @@ exports.postOrder = (req, res, next) => {
   // Token is created using Checkout or Elements!
   // Get the payment token ID submitted by the form:
   const token = req.body.stripeToken; // Using Express
-  let totaSum = 0;
+  let totalSum = 0;
 
   req.user
     .populate("cart.items.productId")
@@ -183,9 +183,11 @@ exports.postOrder = (req, res, next) => {
       user.cart.items.forEach(p => {
         totalSum += p.quantity * p.productId.price;
       });
+
       const products = user.cart.items.map(i => {
         return { quantity: i.quantity, product: { ...i.productId._doc } };
       });
+
       const order = new Order({
         user: {
           email: req.user.email,
@@ -193,19 +195,23 @@ exports.postOrder = (req, res, next) => {
         },
         products: products
       });
+
+      console.log("save order");
       return order.save();
     })
     .then(result => {
+      console.log("initialize stripe");
       const charge = stripe.charges.create({
         amount: totalSum * 100,
         currency: "usd",
         description: "Demo Order",
         source: token,
-        metadata: { order_id: result._id }
+        metadata: { order_id: result._id.toString() }
       });
       req.user.clearCart();
     })
     .then(result => {
+      console.log("result>>>", result);
       res.redirect("/orders");
     })
     .catch(err => {
